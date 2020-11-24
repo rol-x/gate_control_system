@@ -1,16 +1,16 @@
-CLK			EQU	P1.0			// Reference clock input.
-PHOTOCELL	EQU	P1.1			// Photocell sensor.
-CLOSED		EQU	P1.2			// Gate closed sensor.
+CLK			EQU P1.0			// Reference clock input.
+PHOTOCELL	EQU P1.1			// Photocell sensor.
+CLOSED		EQU P1.2			// Gate closed sensor.
 OPEN		EQU P1.3			// Gate open sensor.
 CONTROL		EQU P1.7			// Gate operating button.
 MOTOR_CLOSE	EQU P3.2			// Motor closing operation (output signal).	
 MOTOR_OPEN	EQU P3.3			// Motor opening operation (output signal).
 OPEN_TIME	EQU 255				// Gate maximal open time before closing automatically.
 
-DSEG    	AT	30
-TIMER:    DS	1				// Timeout variable.
+DSEG AT 30
+TIMER:		DS 1			// Timeout variable.
 
-CSEG		AT	0
+CSEG AT 0
 RESET:
 // Initialization.
 	MOV		SP, #7FH
@@ -46,9 +46,9 @@ CONT_OPENING:
 GATE_OPEN:
 	CLR		MOTOR_OPEN
 // Gate is open for set amount of time or until the button is pressed, provided there are no obstacles.
-    JNB 	CLK, $
+	JNB		CLK, $
 	JB		CONTROL, CHECK_PHOTOCELL
-    DJNZ 	TIMER, GATE_OPEN
+	DJNZ	TIMER, GATE_OPEN
 // When timeout reaches 0, is it reset to start over if there are obstacles.
 	MOV		TIMER, OPEN_TIME
 // Pressing the operating button, as well as waiting, initiates the photocell check before.
